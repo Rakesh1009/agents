@@ -1,0 +1,8 @@
+# OpenCV for video ingestion (headless avoids Qt dependencies inside Docker)
+opencv-python>=4.8.0.74
+
+# YOLO Object Detection
+ultralytics>=8.0.0
+
+# Text-to-Speech
+pyttsx3>=2.90

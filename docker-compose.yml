@@ -1,0 +1,24 @@
+services:
+  sound-vision:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sound-vision-app
+    container_name: sound-vision-app
+    devices:
+      # Map the webcam
+      - /dev/video0:/dev/video0
+      # Map sound cards
+      - /dev/snd:/dev/snd
+    volumes:
+      # Map PulseAudio socket (assuming current user ID is 1000, which is typical for Ubuntu Desktop)
+      # If your UID is different, you can change 1000 to match `id -u`
+      - /run/user/1000/pulse/native:/tmp/pulse-socket
+      # Map X11 socket for GUI rendering
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - PULSE_SERVER=unix:/tmp/pulse-socket
+      - XDG_RUNTIME_DIR=/tmp
+      - DISPLAY=${DISPLAY}
+    # Uncomment the line below to run the app silently (muted) by default
+    # command: ["python", "src/main.py", "--mute"]
